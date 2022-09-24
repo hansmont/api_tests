@@ -1,0 +1,20 @@
+{
+  "name": "restful_booker",
+  "version": "1.0.0",
+  "description": "Restful booker API tests",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha tests.js --timeout 10000"
+  },
+  "author": "Hans",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "chai": "^4.3.6",
+    "lodash": "^4.17.21",
+    "mocha": "^10.0.0"
+  },
+  "devDependencies": {
+    "chai-json-pattern": "^1.1.0"
+  }
+}
