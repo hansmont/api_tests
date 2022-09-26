@@ -1,11 +1,16 @@
+const { expect } = require('chai');
 const axios = require('./axiosConfig.js');
+let token;
 
 const generateToken = async () => {
     try {
-        return await axios.post('/auth', {
+        await axios.post('/auth', {
             username: 'admin',
             password: 'password123'
-        });
+        }).then(async (response) => {
+            expect(response.status).to.equal(200);
+            return token = await response.data.token;
+        })
     } catch (error) {
         return error.response;
     }
@@ -35,12 +40,35 @@ const createBooking = async(body) => {
     }
 }
 
-//need to improve this, remove the token creation somewhere else, dont pass as param
-const deleteBooking = async(id, token) => {
+const updateBooking = async(bookingid, body) => {
+    try {
+        return await axios.put(`/booking/${ bookingid }`, body, {
+            headers: {
+                Cookie: `token=${ token }`
+            }
+        });
+    } catch (error) {
+        return error.response;
+    }
+}
+
+const partialUpdateBooking = async(bookingid, body) => {
+    try {
+        return await axios.patch(`/booking/${ bookingid }`, body, {
+            headers: {
+                Cookie: `token=${ token }`
+            }
+        });
+    } catch (error) {
+        return error.response
+    }
+}
+
+const deleteBooking = async(id) => {
     try {
         return await axios.delete(`/booking/${id}`, {
             headers: {
-                Cookie: `token=${token}`
+                Cookie: `token=${ token }`
             }
         });
     } catch (error) {
@@ -53,5 +81,7 @@ module.exports = {
     getBookingList,
     getBooking,
     createBooking,
-    deleteBooking
+    deleteBooking,
+    updateBooking,
+    partialUpdateBooking
 }
